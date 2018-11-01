@@ -17,14 +17,16 @@ Pod::Spec.new do |s|
 
   s.name         = "AudioUnitPlayer"
   s.version      = "1.0.0"
-  s.summary      = "A short description of AudioUnitPlayer."
+  s.summary      = "AudioUnitPlayer"
 
   # This description is used to generate tags and improve search results.
   #   * Think: What does it do? Why did you write it? What is the focus?
   #   * Try to keep it short, snappy and to the point.
   #   * Write the description between the DESC delimiters below.
   #   * Finally, don't worry about the indent, CocoaPods strips it!
-  s.description  = "AAC Plyaer"
+  s.description  = <<-DESC
+                    AAC 流数据通过AudioUnit播放 
+                   DESC
 
   s.homepage     = "https://github.com/ColdMountain/AudioUnitPlayer"
   # s.screenshots  = "www.example.com/screenshots_1.gif", "www.example.com/screenshots_2.gif"
@@ -88,8 +90,8 @@ Pod::Spec.new do |s|
   #  For header files it will include any header in the folder.
   #  Not including the public_header_files will make all headers public.
   #
-  # s.source_files  = "KLAudioUnitPlayer"
-  s.source_files  = "AudioUnitPlayer/*.{h,m}"
+  s.source_files  = "AudioUnitPlayer.h","AudioUnitPlayer.m"
+  # s.source_files  = "AudioUnitPlayer/*.{h,m}"
   # s.exclude_files = "Classes/Exclude"
 
   # s.public_header_files = "Classes/**/*.h"
