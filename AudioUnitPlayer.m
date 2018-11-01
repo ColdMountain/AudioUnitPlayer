@@ -1,15 +1,15 @@
 //
-//  KLAudioUnitPlayer.m
+//  AudioUnitPlayer.m
 //  CoolChat
 //
 //  Created by coldMountain on 2018/10/25.
 //  Copyright © 2018 ColdMountain. All rights reserved.
 //
 
-#import "KLAudioUnitPlayer.h"
+#import "AudioUnitPlayer.h"
 #import <AudioToolbox/AudioToolbox.h>
 
-@interface KLAudioUnitPlayer()
+@interface AudioUnitPlayer()
 {
     AudioUnit _outAudioUinit;
     AudioBufferList *_renderBufferList;
@@ -22,7 +22,7 @@
 @property (nonatomic, strong) NSMutableArray<NSData*> *paketsArray;
 @end
 
-@implementation KLAudioUnitPlayer
+@implementation AudioUnitPlayer
 //设置输出参数
 static AudioStreamBasicDescription PCMStreamDescription()
 {
@@ -46,7 +46,7 @@ OSStatus CMAudioConverterComplexInputDataProc(AudioConverterRef  inAudioConverte
                                               AudioBufferList *  ioData,
                                               AudioStreamPacketDescription * __nullable * __nullable outDataPacketDescription,
                                               void * __nullable inUserData){
-    KLAudioUnitPlayer *self = (__bridge KLAudioUnitPlayer *)(inUserData);
+    AudioUnitPlayer *self = (__bridge AudioUnitPlayer *)(inUserData);
     if (self->_readedPacketIndex >= self.paketsArray.count) {
         NSLog(@"No Data");
         return 'bxmo';
@@ -71,7 +71,7 @@ OSStatus  CMAURenderCallback(void *                      inRefCon,
                              UInt32                      inBusNumber,
                              UInt32                      inNumberFrames,
                              AudioBufferList*            __nullable ioData){
-    KLAudioUnitPlayer * self = (__bridge KLAudioUnitPlayer *)(inRefCon);
+    AudioUnitPlayer * self = (__bridge AudioUnitPlayer *)(inRefCon);
     @synchronized (self) {
         if (self->_readedPacketIndex < self.paketsArray.count) {
             @autoreleasepool {
@@ -118,7 +118,7 @@ void CMAudioFileStream_PropertyListenerProc(void *                        inClie
                                             AudioFileStreamPropertyFlags* oFlags)
 {
     if (inPropertyID == kAudioFileStreamProperty_DataFormat) {
-        KLAudioUnitPlayer *self = (__bridge KLAudioUnitPlayer *)(inClientData);
+        AudioUnitPlayer *self = (__bridge AudioUnitPlayer *)(inClientData);
         UInt32 dataSize = 0;
         Boolean writable = false;
         OSStatus status = AudioFileStreamGetPropertyInfo(inAudioFileStream,
@@ -153,7 +153,7 @@ void CMAudioFileStreamPacketsProc(void *                         inClientData,
                                   const void *                   inInputData,
                                   AudioStreamPacketDescription * inPacketDescriptions)
 {
-    KLAudioUnitPlayer *self = (__bridge KLAudioUnitPlayer *)(inClientData);
+    AudioUnitPlayer *self = (__bridge AudioUnitPlayer *)(inClientData);
     for (int i = 0; i < inNumberPackets; i++) {
         SInt64 packetOffset = inPacketDescriptions[i].mStartOffset;
         UInt32 packetSize = inPacketDescriptions[i].mDataByteSize;

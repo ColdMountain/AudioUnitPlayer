@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface KLAudioUnitPlayer : NSObject
+@interface AudioUnitPlayer : NSObject
 
 - (instancetype)init;
 - (void)kl_playAudioWithData:(char*)pBuf andLength:(ssize_t)length timeStamp:(NSInteger)timeStamp;
